@@ -1,51 +1,88 @@
 <?= $this->extend('layouts/main') ?>
 <?= $this->section('content') ?>
 
-<div>
+<section class="content">
+<div class="container-fluid">
 
-    <h3>Detail User</h3>
+    <div class="row justify-content-center">
 
-    <table border="1" cellpadding="5" cellspacing="0">
-        <tr>
-            <td>Nama</td>
-            <td><?= $user['nama'] ?></td>
-        </tr>
-        <tr>
-            <td>Email</td>
-            <td><?= $user['email'] ?></td>
-        </tr>
-        <tr>
-            <td>Username</td>
-            <td><?= $user['username'] ?></td>
-        </tr>
-        <tr>
-            <td>password</td>
-            <td>***</td>
-        </tr>
-        <tr>
-            <td>Role</td>
-            <td><?= ucfirst($user['role']) ?></td>
-        </tr>
-        <tr>
-            <td>Foto</td>
-            <td>
-                <?php if ($user['foto']): ?>
-                    <img src="<?= base_url('uploads/users/' . $user['foto']) ?>" width="100">
-                <?php else: ?>
-                    -
-                <?php endif; ?>
-            </td>
-        </tr>
-    </table>
+        <div class="col-md-7">
 
-    <br>
+            <div class="card card-info">
 
-    <a href="<?= base_url('users') ?>">Kembali</a>
+                <div class="card-header">
+                    <h3 class="card-title">Detail User</h3>
+                </div>
 
-    <?php if (session()->get('role') == 'admin') : ?>
-        <a href="<?= base_url('users/edit/' . $user['id']) ?>">Edit</a>
-    <?php endif; ?>
+                <div class="card-body">
+
+                    <table class="table table-bordered">
+
+                        <tr>
+                            <th>Nama</th>
+                            <td><?= esc($user['nama']) ?></td>
+                        </tr>
+
+                        <tr>
+                            <th>Email</th>
+                            <td><?= esc($user['email']) ?></td>
+                        </tr>
+
+                        <tr>
+                            <th>Username</th>
+                            <td><?= esc($user['username']) ?></td>
+                        </tr>
+
+                        <tr>
+                            <th>Role</th>
+                            <td>
+                                <?php if($user['role'] == 'admin'): ?>
+                                    <span class="badge bg-danger">Admin</span>
+                                <?php elseif($user['role'] == 'petugas'): ?>
+                                    <span class="badge bg-warning text-dark">Petugas</span>
+                                <?php else: ?>
+                                    <span class="badge bg-success">Anggota</span>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Foto</th>
+                            <td>
+                                <?php if($user['foto']): ?>
+                                    <img src="<?= base_url('uploads/users/'.$user['foto']) ?>"
+                                         width="120" class="img-circle elevation-2">
+                                <?php else: ?>
+                                    <span class="text-muted">Tidak ada foto</span>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+
+                    </table>
+
+                </div>
+
+                <div class="card-footer">
+
+                    <a href="<?= base_url('users') ?>" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Kembali
+                    </a>
+
+                    <?php if(session('role') == 'admin') : ?>
+                        <a href="<?= base_url('users/edit/'.$user['id']) ?>" class="btn btn-warning">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                    <?php endif; ?>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
+</section>
 
 <?= $this->endSection() ?>

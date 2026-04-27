@@ -1,80 +1,77 @@
-<!-- app/Views/users/create.php -->
-<!DOCTYPE html>
-<html lang="en">
+<?= $this->extend('layouts/main') ?>
+<?= $this->section('content') ?>
 
-<head>
-    <meta charset="UTF-8">
-    <title>Tambah User</title>
+<section class="content">
+<div class="container-fluid">
 
-    <!-- MemanggilBootstrap 5.3 CSS dan Icon -->
-    <link href="<?= base_url('assets/css/bootstrap.min.css') ?>" rel="stylesheet">
-    <link href="<?= base_url('assets/bootstrap-icons-1.13.1/bootstrap-icons.css') ?>" rel="stylesheet">
-</head>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
 
-<body>
+            <div class="card card-primary">
 
-    <div>
-        <div>
-            <div>
-                <h4>Form Tambah User</h4>
-            </div>
-            <div>
-
-                <?php if (session()->getFlashdata('error')): ?>
-                    <div><?= session()->getFlashdata('error') ?></div>
-                <?php endif; ?>
+                <div class="card-header">
+                    <h3 class="card-title">Tambah User</h3>
+                </div>
 
                 <form action="<?= base_url('users/store') ?>" method="post" enctype="multipart/form-data">
 
-                    <div>
-                        <label>Nama Lengkap</label><br>
-                        <input type="text" name="nama" required>
+                    <div class="card-body">
+
+                        <div class="form-group">
+                            <label>Nama</label>
+                            <input type="text" name="nama" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" name="email" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input type="text" name="username" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" name="password" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Role</label>
+                            <select name="role" class="form-control" required>
+                                <option value="">-- Pilih Role --</option>
+                                <option value="admin">Admin</option>
+                                <option value="petugas">Petugas</option>
+                                <option value="anggota">Anggota</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Foto</label>
+                            <input type="file" name="foto" class="form-control">
+                        </div>
+
                     </div>
 
-                    <div>
-                        <label>Email</label><br>
-                        <input type="text" name="email" required>
-                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-success">
+                            Simpan
+                        </button>
 
-                    <div>
-                        <label>Username</label><br>
-                        <input type="text" name="username" required>
+                        <a href="<?= base_url('users') ?>" class="btn btn-secondary">
+                            Kembali
+                        </a>
                     </div>
-
-                    <div>
-                        <label>Password</label><br>
-                        <input type="password" name="password" required>
-                    </div>
-
-                    <div>
-                        <label>Role</label><br>
-                        <select name="role" required>
-                            <option value="">-- Pilih Role --</option>
-                            <option value="admin">Admin</option>
-                            <option value="petugas">Petugas</option>
-                            <option value="anggota">Anggota</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label>Foto Profil</label><br>
-                        <input type="file" name="foto" accept="image/*"><br>
-                        <small>Kosongkan jika tidak upload foto</small>
-                    </div>
-
-                    <br>
-                    <button type="submit">Simpan</button>
-                    <a href="<?= base_url('login') ?>">Sudah Punya Akun</a>
 
                 </form>
 
             </div>
+
         </div>
     </div>
 
-</body>
+</div>
+</section>
 
-<!-- Memanggil Bootstrap JS -->
-<script src="<?= base_url('assets/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
-
-</html>
+<?= $this->endSection() ?>

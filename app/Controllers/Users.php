@@ -1,28 +1,20 @@
 <?php
 
-// Namespace controller (menentukan lokasi file dalam struktur CI4)
 namespace App\Controllers;
 
-// Menggunakan model UsersModel untuk interaksi database
-use App\Models\UsersModel;
+use App\Models\UserModel;
 
-// Class Users mewarisi BaseController (class utama di CI4)
 class Users extends BaseController
 {
-    // Properti untuk menampung instance model
     protected $users;
 
-    // Constructor: dijalankan saat controller dipanggil
     public function __construct()
     {
-        // Inisialisasi model UsersModel
-        $this->users = new UsersModel();
+        $this->users = new \App\Models\UsersModel();
     }
 
-    // Menampilkan halaman form tambah user
     public function create()
     {
-        // Memanggil view users/create.php
         return view('users/create');
     }
 
@@ -80,45 +72,33 @@ class Users extends BaseController
     }
 
     // Menampilkan daftar user (dengan filter & pagination)
-    public function index()
-    {
-        // Ambil parameter GET (search & filter)
-        $keyword = $this->request->getGet('keyword');
-        $role = $this->request->getGet('role');
+  public function index()
+{
+    $model = new \App\Models\UsersModel();
 
-        // Builder awal dari model
-        $builder = $this->users;
+    $perPage = 10;
 
-        // Jika ada keyword → filter berdasarkan nama
-        if ($keyword) {
-            $builder = $builder->like('nama', $keyword);
-        }
+    $keyword = $this->request->getGet('keyword');
+    $role    = $this->request->getGet('role');
 
-        // Jika ada filter role
-        if ($role) {
-            $builder = $builder->where('role', $role);
-        }
-
-        // Ambil data dengan pagination (10 data per halaman)
-        $data['users'] = $builder->paginate(10);
-
-        // Pager untuk navigasi halaman
-        $data['pager'] = $this->users->pager;
-
-        // Kirim data ke view
-        return view('users/index', $data);
+    if ($keyword) {
+        $model->like('nama', $keyword);
     }
 
-    // Menampilkan form edit user
-    public function edit($id)
-    {
-        // Ambil data user berdasarkan id
-        $data['user'] = $this->users->find($id);
-
-        // Tampilkan view edit
-        return view('users/edit', $data);
+    if ($role) {
+        $model->where('role', $role);
     }
 
+    //  INI BAGIAN YANG KAMU TANYA
+    $data['users'] = $model->paginate($perPage);
+    $data['pager'] = $model->pager;
+    $data['no'] = 1 + ($perPage * ($data['pager']->getCurrentPage() - 1));
+
+    $data['keyword'] = $keyword;
+    $data['role'] = $role;
+
+    return view('users/index', $data);
+}
     // Update data user
     public function update($id)
     {
@@ -252,4 +232,14 @@ class Users extends BaseController
         // Redirect ke WhatsApp
         return redirect()->to($url);
     }
+    public function edit($id)
+{
+    $data['user'] = $this->users->find($id);
+
+    if (!$data['user']) {
+        return redirect()->to('/users')->with('error', 'Data tidak ditemukan');
+    }
+
+    return view('users/edit', $data);
+}
 }

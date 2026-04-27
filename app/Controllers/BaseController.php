@@ -48,6 +48,9 @@ abstract class BaseController extends Controller
      */
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
+        if (!session()->get('logged_in')) {
+    return redirect()->to('/login');
+}
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
 

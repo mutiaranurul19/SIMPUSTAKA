@@ -1,142 +1,176 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - SIMPUSTAKA</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-    body, html {
-        height: 100%;
-        margin: 0;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+<meta charset="UTF-8">
+<title>Login SIMPUSTAKA</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    /* Background Full Image */
-    .bg-image {
-        background-image: url('<?= base_url('assets/img/bg-login.jpg') ?>'); 
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        height: 100%;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-    /* Overlay Biru Gelap (Agar lebih matching dengan dashboard) */
-    .bg-image::before {
-        content: "";
-        position: absolute;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(34, 45, 101, 0.6); /* Biru navy transparan */
-    }
+<style>
+* {
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
 
-    /* Kotak Login */
-    .login-box {
-        position: relative;
-        z-index: 1;
-        background: rgba(255, 255, 255, 0.95); 
-        padding: 40px;
-        border-radius: 15px; /* Lebih bulat agar modern */
-        box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-        width: 100%;
-        max-width: 400px;
-        text-align: center;
-        border-top: 5px solid #0d6efd; /* Garis biru di atas kotak */
-    }
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+}
 
-    .login-box h2 {
-        margin-bottom: 5px;
-        font-weight: 700;
-        color: #222e65; /* Biru gelap */
-    }
+/* KIRI */
+.left {
+    flex: 1;
+    background: linear-gradient(135deg, #4e73df, #1cc88a);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
 
-    .login-box p {
-        color: #6c757d;
-        margin-bottom: 25px;
-        font-size: 0.9rem;
-    }
+.left h1 {
+    font-size: 45px;
+    margin: 0;
+}
 
-    .form-control {
-        height: 48px;
-        border-radius: 8px;
-        margin-bottom: 15px;
-        border: 1px solid #ced4da;
-    }
+.left p {
+    opacity: 0.9;
+}
 
-    /* Fokus input jadi biru */
-    .form-control:focus {
-        border-color: #0d6efd;
-        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-    }
+/* KANAN */
+.right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f8f9fc;
+}
 
-    /* Tombol Login Biru (Matching dengan Sidebar & Card Dashboard) */
-    .btn-login {
-        width: 100%;
-        height: 48px;
-        background-color: #0d6efd; /* Biru Primary */
-        border: none;
-        color: white;
-        font-weight: bold;
-        border-radius: 8px;
-        transition: 0.3s;
-        font-size: 1rem;
-        letter-spacing: 0.5px;
-    }
+/* CARD */
+.card {
+    width: 350px;
+    padding: 30px;
+    border-radius: 15px;
+    background: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
 
-    .btn-login:hover {
-        background-color: #0b5ed7; /* Biru lebih tua saat hover */
-        transform: translateY(-2px); /* Efek melayang sedikit */
-    }
+.card h2 {
+    margin-bottom: 20px;
+}
 
-    .footer-text {
-        position: absolute;
-        bottom: 20px;
-        color: rgba(255, 255, 255, 0.8);
-        z-index: 1;
-        font-size: 0.85rem;
-    }
+/* INPUT */
+.input-group {
+    position: relative;
+}
 
-    a.small {
-        color: #0d6efd;
-    }
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+input:focus {
+    border-color: #4e73df;
+    outline: none;
+}
+
+/* TOGGLE PASSWORD */
+.toggle {
+    position: absolute;
+    right: 10px;
+    top: 20px;
+    cursor: pointer;
+}
+
+/* BUTTON */
+.btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: linear-gradient(135deg, #4e73df, #1cc88a);
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* LINK */
+.link {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.link a {
+    color: #4e73df;
+    text-decoration: none;
+}
+
+/* ALERT */
+.alert {
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.error { background: #ffe0e0; color: #c0392b; }
+.success { background: #e0ffe8; color: #27ae60; }
+
 </style>
 </head>
+
 <body>
 
-<div class="bg-image">
-    <div class="login-box">
-        <h2>Simpustaka Login Form</h2>
-        
+<div class="left">
+    <h1>SIMPUSTAKA</h1>
+    <p>Sistem Perpustakaan Digital Modern</p>
+</div>
+
+<div class="right">
+    <div class="card">
+        <h2>Login</h2>
+
         <?php if(session()->getFlashdata('error')): ?>
-            <div class="alert alert-warning text-danger small p-2" style="background-color: #fff3cd;">
-                <b>Invalid!</b> <?= session()->getFlashdata('error') ?>
-            </div>
+            <div class="alert error"><?= session()->getFlashdata('error') ?></div>
         <?php endif; ?>
 
-        <form action="<?= base_url('login/proses') ?>" method="POST">
-            <div class="mb-3">
-                <input type="text" name="username" class="form-control" placeholder="username" required>
-            </div>
-            <div class="mb-3">
-                <input type="password" name="password" class="form-control" placeholder="password" required>
-            </div>
-            
-            <button type="submit" class="btn-login">Login</button>
-            
-            <div class="mt-3">
-                <a href="#" class="text-decoration-none text-muted small">Lost your password?</a>
-            </div>
-        </form>
-    </div>
+        <?php if(session()->getFlashdata('salahpw')): ?>
+            <div class="alert error"><?= session()->getFlashdata('salahpw') ?></div>
+        <?php endif; ?>
 
-    <div class="footer-text">
-        © All rights reserved SIMPUSTAKA
+        <?php if(session()->getFlashdata('success')): ?>
+            <div class="alert success"><?= session()->getFlashdata('success') ?></div>
+        <?php endif; ?>
+
+        <form action="<?= base_url('login') ?>" method="post">
+
+            <input type="text" name="username" placeholder="Username" required>
+
+            <div class="input-group">
+                <input type="password" name="password" id="password" placeholder="Password" required>
+                <span class="toggle" onclick="togglePassword()">👁️</span>
+            </div>
+
+            <button class="btn">Login</button>
+        </form>
+
+        <div class="link">
+            Belum punya akun?
+            <a href="<?= base_url('register') ?>">Daftar Sekarang</a>
+        </div>
     </div>
 </div>
+
+<script>
+function togglePassword() {
+    var x = document.getElementById("password");
+    x.type = x.type === "password" ? "text" : "password";
+}
+</script>
 
 </body>
 </html>

@@ -185,3 +185,9 @@ $routes->get('anggota/delete/(:num)', 'AnggotaController::delete/$1');
 $routes->get('login', 'LoginController::index');
 $routes->post('login/proses', 'LoginController::proses');
 $routes->get('logout', 'LoginController::logout');
+
+$routes->get('pengembalian/kembalikan/(:num)', 'PengembalianController::kembalikan/$1');
+
+$routes->get('/register', 'Auth::register');
+$routes->post('/register/save', 'Auth::saveRegister');
+$routes->post('/login', 'Auth::prosesLogin');

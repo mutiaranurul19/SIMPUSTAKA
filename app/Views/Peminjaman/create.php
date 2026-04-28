@@ -11,14 +11,11 @@
 
 <!-- ANGGOTA -->
 <div class="mb-3">
-    <label class="form-label">Pilih Anggota</label>
-    <select name="id_anggota" class="form-select" required>
-        <option value="">-- Pilih Anggota --</option>
-        <?php foreach ($anggota as $a): ?>
-            <option value="<?= $a['id_anggota'] ?>">
-                <?= $a['nama'] ?> (NIS: <?= $a['nis'] ?>)
-            </option>
-        <?php endforeach; ?>
+    <input type="hidden" name="id_anggota" value="<?= session('id_anggota') ?>">
+
+<p>
+    👤 Peminjam: <b><?= session('nama') ?></b>
+</p>
     </select>
 </div>
 <br>

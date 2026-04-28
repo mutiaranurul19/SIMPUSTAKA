@@ -62,6 +62,14 @@
        class="btn btn-warning btn-sm">
         ✏ Edit
     </a>
+    <?php if($p['status'] == 'dipinjam'): ?>
+    <a href="<?= base_url('pengembalian/kembalikan/'.$p['id_peminjaman']) ?>"
+       class="btn btn-success btn-sm">
+       🔄 Kembalikan
+    </a>
+<?php else: ?>
+    <span class="badge bg-success">✔ Sudah Kembali</span>
+<?php endif; ?>
 
     <!-- PERPANJANG -->
     <?php if (($p['jumlah_perpanjang'] ?? 0) < 2): ?>

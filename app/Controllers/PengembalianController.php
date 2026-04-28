@@ -38,36 +38,6 @@ class PengembalianController extends BaseController
 
     return view('pengembalian/index', $data);
 }
-
-    // ================= PENGEMBALIAN =================
-    public function kembalikan($id)
-    {
-        $setting = $this->db->table('pengaturan')->get()->getRowArray();
-
-        $peminjaman = $this->db->table('peminjaman')
-            ->where('id_peminjaman', $id)
-            ->get()
-            ->getRowArray();
-
-        $tgl_kembali = $peminjaman['tanggal_kembali'];
-        $today = date('Y-m-d');
-
-        $denda = 0;
-
-        if ($today > $tgl_kembali) {
-            $telat = (strtotime($today) - strtotime($tgl_kembali)) / 86400;
-            $denda = $telat * $setting['denda_per_hari'];
-        }
-
-        $this->db->table('peminjaman')->update([
-            'status' => 'dikembalikan',
-            'denda'  => $denda
-        ], ['id_peminjaman' => $id]);
-
-        return redirect()->to('/pengembalian')
-            ->with('success', 'Buku dikembalikan');
-    }
-
     // ================= STORE =================
     public function store()
     {
@@ -196,4 +166,52 @@ class PengembalianController extends BaseController
         return redirect()->to('/pengembalian')
             ->with('success', 'Denda berhasil dibayar');
     }
+    // ================= PENGEMBALIAN =================
+    public function kembalikan($id)
+{
+    // ambil data peminjaman
+    $pinjam = $this->db->table('peminjaman')
+        ->where('id_peminjaman', $id)
+        ->get()
+        ->getRowArray();
+
+    if (!$pinjam) {
+        return redirect()->back()->with('error', 'Data tidak ditemukan');
+    }
+
+    // CEK SUDAH DIKEMBALIKAN ATAU BELUM
+    $cek = $this->db->table('pengembalian')
+        ->where('id_peminjaman', $id)
+        ->get()
+        ->getRowArray();
+
+    if ($cek) {
+        return redirect()->back()->with('error', 'Sudah dikembalikan');
+    }
+
+    $tgl_kembali = $pinjam['tanggal_kembali'];
+    $today = date('Y-m-d');
+
+    // hitung telat
+    $selisih = (strtotime($today) - strtotime($tgl_kembali)) / 86400;
+
+    $denda = ($selisih > 0) ? $selisih * 1000 : 0;
+    $status = ($denda > 0) ? 'Terlambat' : 'Tepat Waktu';
+
+    // simpan ke pengembalian
+    $this->db->table('pengembalian')->insert([
+        'id_peminjaman' => $id,
+        'tanggal_dikembalikan' => $today,
+        'denda' => $denda,
+        'status' => $status
+    ]);
+
+    // update peminjaman
+    $this->db->table('peminjaman')->update([
+        'status' => 'dikembalikan'
+    ], ['id_peminjaman' => $id]);
+
+    return redirect()->to('/peminjaman')
+        ->with('success', 'Buku berhasil dikembalikan');
+}
 }

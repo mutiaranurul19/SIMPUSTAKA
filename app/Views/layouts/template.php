@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>SIMPUSTAKA</title>
 
     <link rel="stylesheet" href="<?= base_url('assets/celestial/vendors/css/vendor.bundle.base.css') ?>">
@@ -12,18 +11,20 @@
 
 <div class="container-scroller">
 
-    <!-- Sidebar -->
+    <!-- SIDEBAR -->
     <?= $this->include('layout/sidebar') ?>
 
     <div class="container-fluid page-body-wrapper">
 
-        <!-- Navbar -->
+        <!-- NAVBAR -->
         <?= $this->include('layout/navbar') ?>
 
-        <!-- Main Content -->
+        <!-- CONTENT -->
         <div class="main-panel">
             <div class="content-wrapper">
+
                 <?= $this->renderSection('content') ?>
+
             </div>
         </div>
 

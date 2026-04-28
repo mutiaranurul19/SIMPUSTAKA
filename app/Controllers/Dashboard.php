@@ -18,23 +18,13 @@ class Dashboard extends BaseController
         $this->anggotaModel = new AnggotaModel();
         $this->peminjamanModel = new PeminjamanModel();
 
-        helper(['url', 'form']);
+        helper(['url']);
     }
 
+    // =========================
+    // HALAMAN DASHBOARD
+    // =========================
     public function index()
-    {
-        $data = [
-            'total_buku'       => $this->bukuModel->countAll(),
-            'total_anggota'    => $this->anggotaModel->countAll(),
-            'total_pinjam'     => $this->peminjamanModel->countAll(),
-            'pinjam_aktif'     => $this->peminjamanModel->where('status', 'dipinjam')->countAllResults(),
-        ];
-
-        return view('admin/dashboard', $data);
-    }
-
-    // 🔥 AJAX realtime stats (tanpa reload)
-    public function stats()
     {
         $data = [
             'total_buku'    => $this->bukuModel->countAll(),
@@ -43,6 +33,19 @@ class Dashboard extends BaseController
             'pinjam_aktif'  => $this->peminjamanModel->where('status', 'dipinjam')->countAllResults(),
         ];
 
-        return $this->response->setJSON($data);
+        return view('admin/dashboard', $data);
+    }
+
+    // =========================
+    // 🔥 REALTIME DATA (AJAX)
+    // =========================
+    public function stats()
+    {
+        return $this->response->setJSON([
+            'total_buku'    => $this->bukuModel->countAll(),
+            'total_anggota' => $this->anggotaModel->countAll(),
+            'total_pinjam'  => $this->peminjamanModel->countAll(),
+            'pinjam_aktif'  => $this->peminjamanModel->where('status', 'dipinjam')->countAllResults(),
+        ]);
     }
 }

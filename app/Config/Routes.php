@@ -192,7 +192,3 @@ $routes->get('/register', 'Auth::register');
 $routes->post('/register/save', 'Auth::saveRegister');
 $routes->post('/login', 'Auth::prosesLogin');
 
-// DASHBOARD
-$routes->get('/dashboard', 'Dashboard::index');
-$routes->get('/dashboard/stats', 'Dashboard::stats'); // 🔥 realtime data
-$routes->get('/dashboard/stats', 'Dashboard::stats');

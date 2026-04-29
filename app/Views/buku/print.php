@@ -1,98 +1,50 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
-    <title>Print Data Buku - SIMPUSTAKA</title>
-
+    <title>Laporan Data Buku</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            font-size: 13px;
-            margin: 20px;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .header h2 {
-            margin: 0;
-        }
-
-        .header p {
-            margin: 5px 0;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            border: 1px solid #333;
-            padding: 8px;
-            text-align: center;
-        }
-
-        th {
-            background: #4CAF50;
-            color: white;
-        }
-
-        /* PRINT MODE */
-        @media print {
-            body {
-                font-size: 12px;
-            }
-
-            th {
-                background: #ddd !important;
-                color: black !important;
-            }
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 12px; color: #333; margin: 30px; }
+        .header { text-align: center; border-bottom: 2px solid #444; padding-bottom: 10px; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th { background-color: #f2f2f2; border: 1px solid #ddd; padding: 10px; text-transform: uppercase; font-size: 10px; }
+        td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        .text-center { text-align: center; }
+        @media print { .no-print { display: none; } }
     </style>
-
 </head>
-
 <body onload="window.print()">
-
-    <!-- HEADER -->
     <div class="header">
-        <h2>SIMPUSTAKA</h2>
-        <p>Laporan Data Buku</p>
+        <h1 style="margin:0;">SIMPUSTAKA</h1>
+        <p style="margin:5px 0;">Laporan Inventaris Koleksi Buku Perpustakaan</p>
+        <small>Dicetak pada: <?= date('d/m/Y H:i') ?></small>
     </div>
 
-    <!-- TABLE -->
     <table>
         <thead>
             <tr>
-                <th>No</th>
-                <th>Judul</th>
+                <th width="5%">No</th>
+                <th>ISBN</th>
+                <th width="30%">Judul Buku</th>
                 <th>Kategori</th>
-                <th>Penulis</th>
                 <th>Penerbit</th>
                 <th>Tahun</th>
-                <th>Jumlah</th>
+                <th>Stok</th>
             </tr>
         </thead>
-
         <tbody>
             <?php $no = 1; foreach ($buku as $b): ?>
                 <tr>
-                    <td><?= $no++ ?></td>
-                    <td><?= esc($b['judul']) ?></td>
+                    <td class="text-center"><?= $no++ ?></td>
+                    <td><?= esc($b['isbn']) ?></td>
+                    <td style="font-weight: bold;"><?= esc($b['judul']) ?></td>
                     <td><?= esc($b['nama_kategori'] ?? '-') ?></td>
-                    <td><?= esc($b['nama_penulis'] ?? '-') ?></td>
                     <td><?= esc($b['nama_penerbit'] ?? '-') ?></td>
-                    <td><?= esc($b['tahun_terbit']) ?></td>
-                    <td><?= esc($b['jumlah']) ?></td>
+                    <td class="text-center"><?= esc($b['tahun_terbit']) ?></td>
+                    <td class="text-center"><?= esc($b['jumlah']) ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
-
 </body>
-
 </html>

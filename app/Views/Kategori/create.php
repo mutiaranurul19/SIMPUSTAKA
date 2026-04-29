@@ -1,49 +1,41 @@
 <?= $this->extend('layouts/main') ?>
 <?= $this->section('content') ?>
 
-<section class="content">
-<div class="container-fluid">
+<style>
+    body, .content-wrapper, #main-content { 
+        background-color: #E3F2FD !important; 
+        background-image: none !important;
+    }
+</style>
 
-<div class="row justify-content-center">
-<div class="col-md-6">
+<div class="container-fluid py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card card-form">
+                <div class="card-header bg-white pt-4 px-4 border-0">
+                    <h4 class="fw-bold text-dark">✨ Tambah Kategori</h4>
+                </div>
 
-<div class="card card-primary">
+                <form method="post" action="<?= base_url('kategori/store') ?>">
+                    <div class="card-body px-4">
+                        <div class="form-group mb-3">
+                            <label class="form-label small fw-bold text-muted">Nama Kategori</label>
+                            <input type="text" name="nama_kategori" class="form-control" placeholder="Masukan Nama Kategori" required>
+                        </div>
+                    </div>
 
-    <div class="card-header">
-        <h3 class="card-title">Tambah Kategori</h3>
-    </div>
-
-    <form method="post" action="<?= base_url('kategori/store') ?>">
-
-    <div class="card-body">
-
-        <div class="form-group">
-            <label>Nama Kategori</label>
-            <input type="text" name="nama_kategori"
-                   class="form-control"
-                   required>
+                    <div class="card-footer bg-white pb-4 px-4 border-0 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary px-4 fw-bold shadow-sm" style="border-radius: 10px;">
+                            Simpan Data
+                        </button>
+                        <a href="<?= base_url('kategori') ?>" class="btn btn-light px-4 border" style="border-radius: 10px;">
+                            Batal
+                        </a>
+                    </div>
+                </form>
+            </div>
         </div>
-
     </div>
-
-    <div class="card-footer">
-        <button type="submit" class="btn btn-success">
-            Simpan
-        </button>
-
-        <a href="<?= base_url('kategori') ?>" class="btn btn-secondary">
-            Kembali
-        </a>
-    </div>
-
-    </form>
-
 </div>
-
-</div>
-</div>
-
-</div>
-</section>
 
 <?= $this->endSection() ?>

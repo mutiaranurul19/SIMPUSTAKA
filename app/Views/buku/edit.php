@@ -1,6 +1,11 @@
 <?= $this->extend('layouts/main') ?>
 <?= $this->section('content') ?>
-
+<style>
+    body, .content-wrapper, #main-content { 
+        background-color: #E3F2FD !important; 
+        background-image: none !important;
+    }
+    </style>
 <section class="content">
 <div class="container-fluid">
 

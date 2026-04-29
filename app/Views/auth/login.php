@@ -185,11 +185,11 @@
         </form>
 
         <div class="footer-link">
-            Belum punya akun? <a href="<?= base_url('register') ?>">Daftar</a>
-        </div>
+    Belum punya akun? <a href="<?= base_url('register') ?>">Daftar</a><br>
+    <a href="<?= base_url('restore') ?>">Restore Database</a>
+</div>
     </div>
 </div>
-
 <script>
     function togglePassword() {
         var x = document.getElementById("password");

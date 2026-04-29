@@ -6,35 +6,34 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 
-// Default
-$routes->setDefaultController('Home');
-$routes->setDefaultMethod('index');
-$routes->setAutoRoute(false);
-
 // Variabel Filter
 $authFilter = ['filter' => 'auth'];
 
 // Variabel Role
-$admin   = ['filter' => 'role:admin'];
-$petugas = ['filter' => 'role:petugas'];
-$anggota = ['filter' => 'role:anggota'];
-$allRole = ['filter' => 'role:admin,petugas,anggota'];
+$admin     = ['filter' => 'role:admin'];
+$petugas     = ['filter' => 'role:petugas'];
+$anggota     = ['filter' => 'role:anggota'];
+$allRole   = ['filter' => 'role:admin, petugas, anggota'];
 
 // Login
 $routes->get('/login', 'Auth::login');
 $routes->post('/proses-login', 'Auth::prosesLogin');
 $routes->get('/logout', 'Auth::logout');
+$routes->post('/login', 'Auth::prosesLogin');
+
+$routes->get('/register', 'Auth::register');
+$routes->post('/register/save', 'Auth::saveRegister');
 
 // Halaman utama
 $routes->get('/', 'DashboardController::index');
 $routes->get('/dashboard', 'DashboardController::index');
 // Users
-$routes->get('/users/create', 'Users::create');
-$routes->post('/users/store', 'Users::store');
+$routes->get('/users/create', 'Users::create'); // form tambah user
+$routes->post('/users/store', 'Users::store'); // aksi simpan user
 $routes->get('/users', 'Users::index', ['filter' => 'role:admin,petugas']);
-$routes->get('/users/edit/(:num)', 'Users::edit/$1', $allRole);
-$routes->post('/users/update/(:num)', 'Users::update/$1', $allRole);
-$routes->get('/users/delete/(:num)', 'Users::delete/$1', $admin);
+$routes->get('/users/edit/(:num)', 'Users::edit/$1', $allRole); // form edit user
+$routes->post('/users/update/(:num)', 'Users::update/$1', $allRole); // aksi update user
+$routes->get('/users/delete/(:num)', 'Users::delete/$1', $allRole); // aksi hapus user
 $routes->get('users/detail/(:num)', 'Users::detail/$1', $allRole); // aksi detail user
 $routes->get('users/print', 'Users::print', $allRole); // aksi print data user
 $routes->get('users/wa/(:num)', 'Users::wa/$1', $allRole); // aksi kirim ke whatsapp
@@ -65,6 +64,7 @@ $routes->post('peminjaman/tambahBuku/(:num)', 'PeminjamanController::tambahBuku/
 $routes->get('peminjaman/print/(:num)', 'PeminjamanController::print/$1');
 $routes->get('peminjaman/print', 'PeminjamanController::print');
 $routes->get('peminjaman/print/(:num)', 'PeminjamanController::print/$1');
+
 $routes->get('/pengembalian', 'PengembalianController::index');
 $routes->get('/pengembalian/kembalikan/(:num)', 'PengembalianController::kembalikan/$1');
 $routes->get('/pengembalian/print', 'PengembalianController::print');
@@ -73,31 +73,24 @@ $routes->get('/pengembalian/print/(:num)', 'PengembalianController::print/$1');
 $routes->get('pengembalian/delete/(:num)', 'PengembalianController::delete/$1');
 $routes->get('pengembalian/edit/(:num)', 'PengembalianController::edit/$1');
 $routes->post('pengembalian/update/(:num)', 'PengembalianController::update/$1');
+$routes->get('pengembalian/bayar/(:num)', 'PengembalianController::bayar/$1');
 
 $routes->group('kategori', ['filter' => 'role:admin'], function($routes){
-
-    $routes->get('/', 'KategoriController::index');
-    $routes->get('create', 'KategoriController::create');
-    $routes->post('store', 'KategoriController::store');
-
-    $routes->get('edit/(:num)', 'KategoriController::edit/$1');
-    $routes->post('update/(:num)', 'KategoriController::update/$1');
-
-    $routes->get('delete/(:num)', 'KategoriController::delete/$1');
-
+$routes->get('/', 'KategoriController::index');
+$routes->get('create', 'KategoriController::create');
+$routes->post('store', 'KategoriController::store');
+$routes->get('edit/(:num)', 'KategoriController::edit/$1');
+$routes->post('update/(:num)', 'KategoriController::update/$1');
+$routes->get('delete/(:num)', 'KategoriController::delete/$1');
 });
 
 $routes->group('penerbit', ['filter' => 'role:admin'], function($routes){
-
-    $routes->get('/', 'PenerbitController::index');
-    $routes->get('create', 'PenerbitController::create');
-    $routes->post('store', 'PenerbitController::store');
-
-    $routes->get('edit/(:num)', 'PenerbitController::edit/$1');
-    $routes->post('update/(:num)', 'PenerbitController::update/$1');
-
-    $routes->get('delete/(:num)', 'PenerbitController::delete/$1');
-
+$routes->get('/', 'PenerbitController::index');
+$routes->get('create', 'PenerbitController::create');
+$routes->post('store', 'PenerbitController::store');
+$routes->get('edit/(:num)', 'PenerbitController::edit/$1');
+$routes->post('update/(:num)', 'PenerbitController::update/$1');
+$routes->get('delete/(:num)', 'PenerbitController::delete/$1');
 });
 
 $routes->get('penulis', 'PenulisController::index');
@@ -135,60 +128,29 @@ $routes->post('/restore/auth', 'Restore::auth');
 $routes->get('/restore/form', 'Restore::form');
 $routes->post('/restore/process', 'Restore::process');
 
-$routes->get('dashboard', 'Dashboard::index');
-$routes->get('users/create', 'Users::create');
-$routes->post('users/store', 'Users::store');
-
-$routes->get('peminjaman/perpanjang/(:num)', 'PeminjamanController::perpanjang/$1');
-
-$routes->get('pengembalian/bayar/(:num)', 'PengembalianController::bayar/$1');
-$routes->get('dashboard', 'DashboardController::index');
-
 $routes->group('', ['filter' => 'role:admin'], function($routes) {
-
-    $routes->get('users', 'Users::index');
-    $routes->get('petugas', 'Petugas::index');
-    $routes->get('kategori', 'Kategori::index');
-    $routes->get('penerbit', 'Penerbit::index');
-    $routes->get('penulis', 'Penulis::index');
-    $routes->get('rak', 'Rak::index');
-    $routes->get('pengaturan', 'Pengaturan::index');
-
+$routes->get('users', 'Users::index');
+$routes->get('petugas', 'Petugas::index');
+$routes->get('kategori', 'Kategori::index');
+$routes->get('penerbit', 'Penerbit::index');
+$routes->get('penulis', 'Penulis::index');
+$routes->get('rak', 'Rak::index');
+$routes->get('pengaturan', 'Pengaturan::index');
 });
 $routes->group('', ['filter' => 'role:admin,petugas'], function($routes) {
-
-    $routes->get('buku', 'Buku::index');
-    $routes->get('peminjaman', 'Peminjaman::index');
-    $routes->get('pengembalian', 'Pengembalian::index');
-
+$routes->get('buku', 'Buku::index');
+$routes->get('peminjaman', 'Peminjaman::index');
+$routes->get('pengembalian', 'Pengembalian::index');
 });
-$routes->group('', ['filter' => 'role:admin,petugas,anggota'], function($routes) {
-
-    $routes->get('dashboard', 'DashboardController::index');
-
-});
-$routes->get('anggota', 'AnggotaController::index');
-$routes->get('anggota/create', 'AnggotaController::create');
-$routes->post('anggota/store', 'AnggotaController::store');
 
 $routes->get('anggota', 'AnggotaController::index');
 $routes->get('anggota/create', 'AnggotaController::create');
 $routes->post('anggota/store', 'AnggotaController::store');
-
 $routes->get('anggota/detail/(:num)', 'AnggotaController::detail/$1');
-
 $routes->get('anggota/edit/(:num)', 'AnggotaController::edit/$1');
 $routes->post('anggota/update/(:num)', 'AnggotaController::update/$1');
-
 $routes->get('anggota/delete/(:num)', 'AnggotaController::delete/$1');
 
 $routes->get('login', 'LoginController::index');
 $routes->post('login/proses', 'LoginController::proses');
 $routes->get('logout', 'LoginController::logout');
-
-$routes->get('pengembalian/kembalikan/(:num)', 'PengembalianController::kembalikan/$1');
-
-$routes->get('/register', 'Auth::register');
-$routes->post('/register/save', 'Auth::saveRegister');
-$routes->post('/login', 'Auth::prosesLogin');
-

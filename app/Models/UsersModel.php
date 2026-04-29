@@ -6,20 +6,12 @@ use CodeIgniter\Model;
 
 class UsersModel extends Model
 {
-    
     protected $table = 'users';
     protected $primaryKey = 'id';
+    protected $allowedFields = ['nama', 'email', 'username', 'password', 'role', 'foto','status'];
 
-    protected $allowedFields = [
-        'nama',
-        'email',
-        'username',
-        'password',
-        'role',
-        'foto'
-    ];
     public function getUsersByUsername($username)
-{
-    return $this->where('username', $username)->first();
-}
+    {
+        return $this->where('username', $username)->first();
+    }
 }

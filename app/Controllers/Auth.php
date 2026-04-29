@@ -52,45 +52,4 @@ class Auth extends Controller
         session()->destroy();
         return redirect()->to('/login');
     }
-    // Menampilkan halaman register
-public function register()
-{
-    return view('auth/register');
-}
-
-// Menyimpan data pendaftaran
-public function saveRegister()
-{
-    $usersModel = new UsersModel();
-
-    // ambil file foto
-    $fileFoto = $this->request->getFile('foto');
-
-    // cek apakah upload atau tidak
-    if ($fileFoto && $fileFoto->isValid() && !$fileFoto->hasMoved()) {
-
-        // buat nama random biar ga bentrok
-        $namaFoto = $fileFoto->getRandomName();
-
-        // pindahkan ke folder public/uploads/users
-        $fileFoto->move('uploads/users/', $namaFoto);
-
-    } else {
-        // kalau ga upload, pakai default
-        $namaFoto = 'default.png';
-    }
-
-    $data = [
-        'nama'     => $this->request->getPost('nama'),
-        'username' => $this->request->getPost('username'),
-        'email'    => $this->request->getPost('email'),
-        'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
-        'role'     => 'anggota',
-        'foto'     => $namaFoto
-    ];
-
-    $usersModel->insert($data);
-
-    return redirect()->to('/login')->with('success', 'Akun berhasil dibuat');
-}
 }

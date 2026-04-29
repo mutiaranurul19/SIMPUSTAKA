@@ -47,6 +47,8 @@ class Filters extends BaseConfig
         'forcehttps'    => ForceHTTPS::class,
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
+        'auth' => \App\Filters\AuthFilter::class,
+        'role' => \App\Filters\RoleFilter::class,
     ];
 
     /**
@@ -121,3 +123,4 @@ class Filters extends BaseConfig
      */
     public array $filters = [];
 }
+
